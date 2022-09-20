@@ -1,23 +1,23 @@
 {% extends "students/base.html" %}
 
 {%  block body %}
-    <h3 class="text-center m-4">Add Student</h3>
+    <h3 class="text-center m-4">Update Student</h3>
     {% if success %}
         <div class="alert alert-success" role="alert">
-            The student has been added successfully! <a href="{% url 'index' %}" class="alert-link">Go to homepage.</a>
+            The student has been updated successfully! <a href="{% url 'index' %}" class="alert-link">Go to homepage.</a>
         </div>
     {% else %}
         <div class="row justify-content-center">
             <div class="col-6">
                 <div class="card bg-light mb-3">
                     <div class="card-header">
-                        <i class="fa-solid fa-address-card fa-lg"></i> Add Student
+                        <i class="fa-solid fa-pen-to-square fa-lg"></i> Edit Student
                     </div>
                     <div class="card-body">
-                        <form action="{% url 'add_student' %}" method="POST">
+                        <form action="" method="POST">
                             {% csrf_token %}
                             {{ form.as_p }}
-                            <button type="submit" class="btn btn-primary">Add</button>
+                            <button type="submit" class="btn btn-primary">Edit</button>
                             <a href="{% url 'index' %}" class="btn btn-secondary">Cancel</a>
                         </form>
                     </div>

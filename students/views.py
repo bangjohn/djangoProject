@@ -27,7 +27,8 @@ def add_student(request):
             new_email = form.cleaned_data['email']
             new_field_of_study = form.cleaned_data['field_of_study']
             new_gpa = form.cleaned_data['gpa']
-            new_student = Student(student_number=new_student_number, first_name=new_first_name, last_name=new_last_name, email=new_email, field_of_study=new_field_of_study, gpa=new_gpa)
+            new_student = Student(student_number=new_student_number, first_name=new_first_name, last_name=new_last_name,
+                                  email=new_email, field_of_study=new_field_of_study, gpa=new_gpa)
             new_student.save()
             return render(request, 'students/add_student.html', {
                 'form': StudentForm(),
@@ -36,3 +37,28 @@ def add_student(request):
     else:
         form = StudentForm()
     return render(request, 'students/add_student.html', {'form': StudentForm()})
+
+
+def edit_student(request, id):
+    if request.method == 'POST':
+        student = Student.objects.get(pk=id)
+        form = StudentForm(request.POST, instance=student)
+        if form.is_valid():
+            form.save()
+            return render(request, 'students/edit_student.html', {
+                'form': StudentForm(instance=student),
+                'success': True
+            })
+    else:
+        student = Student.objects.get(pk=id)
+        form = StudentForm(instance=student)
+    return render(request, 'students/edit_student.html', {'form': form})
+
+def delete_student(request, id):
+    if request.method == 'POST':
+        student = Student.objects.get(pk=id)
+        student.delete()
+        return HttpResponseRedirect(reverse('index'))
+    else:
+        student = Student.objects.get(pk=id)
+    return render(request, 'students/delete_student.html', {'student': student})
